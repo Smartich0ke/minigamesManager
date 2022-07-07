@@ -65,7 +65,7 @@ public class MinigamesManager extends JavaPlugin implements CommandExecutor {
                     List<String> existingWorldsList = getConfig().getStringList(minigameName + ".lobbies");
                     existingWorldsList.add(worldName);
                     getConfig().set(minigameName + ".lobbies", existingWorldsList);
-                    player.sendMessage(prefix + "§aWorld added to §e" + minigameName + "§a successfully!");
+                    player.sendMessage(prefix + "§aWorld added to §b" + minigameName + "§a successfully!");
                     this.saveConfig();
                     this.reloadConfig();
                     return true;
@@ -73,7 +73,7 @@ public class MinigamesManager extends JavaPlugin implements CommandExecutor {
                     List<String> existingWorldsList = getConfig().getStringList(minigameName + ".arenas");
                     existingWorldsList.add(worldName);
                     getConfig().set(minigameName + ".arenas", existingWorldsList);
-                    player.sendMessage(prefix + "§aWorld added to §e" + minigameName + "§a successfully!");
+                    player.sendMessage(prefix + "§aWorld added to §b" + minigameName + "§a successfully!");
                     this.saveConfig();
                     this.reloadConfig();
                     return true;
