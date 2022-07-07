@@ -70,7 +70,13 @@ public class MinigamesManager extends JavaPlugin implements CommandExecutor {
                     this.reloadConfig();
                     return true;
                 } else if (worldType.equals("arena")) {
-
+                    List<String> existingWorldsList = getConfig().getStringList(minigameName + ".arenas");
+                    existingWorldsList.add(worldName);
+                    getConfig().set(minigameName + ".arenas", existingWorldsList);
+                    player.sendMessage(prefix + "§aWorld added to §e" + minigameName + "§a successfully!");
+                    this.saveConfig();
+                    this.reloadConfig();
+                    return true;
                 }
             }
             if (args[0].equals("help")) {
