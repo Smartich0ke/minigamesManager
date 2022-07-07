@@ -7,14 +7,18 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.List;
+import java.util.Objects;
+
 public class MinigamesManager extends JavaPlugin implements CommandExecutor {
 
     String prefix = this.getConfig().getString("command-prefix");
     String minigameName;
     String worldType;
-    String minigame;
     String worldName;
-    String[] existingWorlds;
+    //String[] existingWorlds;
+    String[] allWorlds;
+    String test;
 
 
     @Override
@@ -35,6 +39,7 @@ public class MinigamesManager extends JavaPlugin implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        //existingWorlds = new String[255];
         Player player = (Player) sender;
         if (args.length > 0) {
             if (args[0].equals("create")) {
@@ -50,26 +55,22 @@ public class MinigamesManager extends JavaPlugin implements CommandExecutor {
             }
             if (args[0].equals("add")) {
                 if (args.length < 4) {
-                    player.sendMessage(prefix + "§cNot enough args! (usage: /minigames add <lobby/arena> <minigame> <worldName>)");
+                    player.sendMessage(prefix + "§cNot enough args! §e(usage: /minigames add <lobby/arena> <minigame> <worldName>)");
+                    return true;
                 }
                 worldType = args[1];
                 minigameName = args[2];
                 worldName = args[3];
                 if (worldType.equals("lobby")) {
-                    //Arrays.fill(worldNames, null);
-                    this.getConfig().set(minigameName + ".lobbies", worldName);
-                    player.sendMessage(prefix + "§aWorld/s added to" + minigameName + "!");
+                    List<String> existingWorldsList = getConfig().getStringList(minigameName + ".lobbies");
+                    existingWorldsList.add(worldName);
+                    getConfig().set(minigameName + ".lobbies", existingWorldsList);
+                    player.sendMessage(prefix + "§aWorld added to §e" + minigameName + "§a successfully!");
                     this.saveConfig();
+                    this.reloadConfig();
                     return true;
                 } else if (worldType.equals("arena")) {
-                    //Arrays.fill(worldNames, null);
-                    this.getConfig().set(minigameName + ".arenas", worldName);
-                    player.sendMessage(prefix + "§aWorld/s added to" + minigameName + "!");
-                    this.saveConfig();
-                    return true;
-                }
-                else   {
-                    player.sendMessage(prefix + "§cInvalid world type! Please choose lobby or arena");
+
                 }
             }
             if (args[0].equals("help")) {
