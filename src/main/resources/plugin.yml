@@ -1,7 +1,7 @@
 name: MinigamesManager
 version: 1.0.0-SNAPSHOT
 main: com.nikolaipatrick.MinigamesManager.MinigamesManager
-api-version: 1.18
+api-version: 1.19
 commands:
   minigames:
     description: minigames root command
