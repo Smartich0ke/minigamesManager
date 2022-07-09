@@ -7,8 +7,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 public class MinigamesManager extends JavaPlugin implements CommandExecutor {
 
@@ -20,12 +20,13 @@ public class MinigamesManager extends JavaPlugin implements CommandExecutor {
     String[] allWorlds;
     String test;
 
+    HashMap<String, Integer> onlinePlayers = new HashMap<String, Integer>();
+
 
     @Override
     public void onEnable() {
+
         getLogger().info("MinigamesManager 1.0.0 is loading!");
-
-
         this.saveDefaultConfig();
         //this.getCommand("minigames").setExecutor(new commandMinigame());
     }
@@ -48,7 +49,7 @@ public class MinigamesManager extends JavaPlugin implements CommandExecutor {
                     return true;
                 }
                 minigameName = args[1];
-                this.getConfig().set(minigameName + ".name", minigameName);
+                this.getConfig().set("minigames." + minigameName + ".name", minigameName);
                 this.saveConfig();
                 player.sendMessage(prefix + "§aMinigame created! Add worlds with /minigames add");
                 return true;
@@ -62,9 +63,9 @@ public class MinigamesManager extends JavaPlugin implements CommandExecutor {
                 minigameName = args[2];
                 worldName = args[3];
                 if (worldType.equals("lobby")) {
-                    List<String> existingWorldsList = getConfig().getStringList(minigameName + ".lobbies");
+                    List<String> existingWorldsList = getConfig().getStringList("minigames." + minigameName + ".lobbies");
                     existingWorldsList.add(worldName);
-                    getConfig().set(minigameName + ".lobbies", existingWorldsList);
+                    getConfig().set("minigames." + minigameName + ".lobbies", existingWorldsList);
                     player.sendMessage(prefix + "§aWorld added to §b" + minigameName + "§a successfully!");
                     this.saveConfig();
                     this.reloadConfig();
@@ -77,6 +78,11 @@ public class MinigamesManager extends JavaPlugin implements CommandExecutor {
                     this.saveConfig();
                     this.reloadConfig();
                     return true;
+                }
+            }
+            if (args[0].equals("join")) {
+                if (args.length < 2) {
+                    player.sendMessage(prefix + "§cNot enough args! §e(usage: /minigames join <minigame>)");
                 }
             }
             if (args[0].equals("help")) {
