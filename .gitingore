@@ -1,3 +1,15 @@
 .idea
+*.iml
+out
+*.class
+.mtj.tmp/
+*.jar
+*.war
+*.ear
+hs_err_pid*
+spigot-plugin-plugin.ipr
+spigot-plugin-plugin.iws
+build
 target
-pom.xml
+/target
+.DS_Store
