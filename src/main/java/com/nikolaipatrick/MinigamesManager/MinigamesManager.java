@@ -1,6 +1,7 @@
 
 package com.nikolaipatrick.MinigamesManager;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,6 +13,8 @@ import java.util.List;
 
 public class MinigamesManager extends JavaPlugin implements CommandExecutor {
 
+
+
     String prefix = this.getConfig().getString("command-prefix");
     String minigameName;
     String worldType;
@@ -20,15 +23,24 @@ public class MinigamesManager extends JavaPlugin implements CommandExecutor {
     String[] allWorlds;
     String test;
 
-    HashMap<String, Integer> onlinePlayers = new HashMap<String, Integer>();
+    HashMap<String, Integer> isInProgress = new HashMap<String, Integer>();
 
 
     @Override
     public void onEnable() {
 
-        getLogger().info("MinigamesManager 1.0.0 is loading!");
+        getServer().getConsoleSender().sendMessage(ChatColor.RED + "  __  __" + ChatColor.GREEN + " __  __ ");
+        getServer().getConsoleSender().sendMessage(ChatColor.RED + " |  \\/  |" + ChatColor.GREEN + "  \\/  |");
+        getServer().getConsoleSender().sendMessage(ChatColor.RED + " | \\  / |" + ChatColor.GREEN + " \\  / |" + ChatColor.RED + " Minigames"  + ChatColor.GREEN + "Manager");
+        getServer().getConsoleSender().sendMessage(ChatColor.RED + " | |\\/| |" + ChatColor.GREEN + " |\\/| | V1.0.0-SNAPHOT");
+        getServer().getConsoleSender().sendMessage(ChatColor.RED + " |_|  |_|" + ChatColor.GREEN + "_|  |_|");
         this.saveDefaultConfig();
         //this.getCommand("minigames").setExecutor(new commandMinigame());
+        /*for (String configSection : getConfig().getConfigurationSection("minigames").getKeys(false)) {
+            onlinePlayers.put(configSection, 0);
+        }
+        */
+        getCommand("minigames").setTabCompleter(new tabComplete());
     }
 
     @Override
@@ -53,6 +65,21 @@ public class MinigamesManager extends JavaPlugin implements CommandExecutor {
                 this.saveConfig();
                 player.sendMessage(prefix + "§aMinigame created! Add worlds with /minigames add");
                 return true;
+            }
+            if (args[0].equals("set")) {
+                if (args.length < 3) {
+                    player.sendMessage(prefix + " §cNot enough args! §e(usage: /minigames set maxPlayers <minigame> <amount>)");
+                    return true;
+                }
+                else {
+                    if (args[2] == "maxplayers") {
+                        this.getConfig().set(args[1] + ".maxPlayers", args[3]);
+                        this.saveConfig();
+                        this.reloadConfig();
+                        return true;
+
+                    }
+                }
             }
             if (args[0].equals("add")) {
                 if (args.length < 4) {
@@ -84,6 +111,9 @@ public class MinigamesManager extends JavaPlugin implements CommandExecutor {
                 if (args.length < 2) {
                     player.sendMessage(prefix + "§cNot enough args! §e(usage: /minigames join <minigame>)");
                 }
+                else {
+                }
+
             }
             if (args[0].equals("help")) {
                 player.sendMessage("§e---Help page 1/1---");
@@ -97,6 +127,10 @@ public class MinigamesManager extends JavaPlugin implements CommandExecutor {
             }
             if (args[0].equals("list")) {
                 player.sendMessage("§e/minigames list <worlds/lobbies> <minigame> - §aLists worlds in a minigame");
+                return true;
+            }
+            if (args[0].equals("moo")) {
+                player.sendMessage(prefix + " §cThere are no easter eggs in this plugin.");
                 return true;
             }
             if (args[0].equals("reload")) {
